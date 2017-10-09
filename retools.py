@@ -9,19 +9,28 @@ def tree_parse(src, tree, source):
     try:
         title = tree.xpath(source[0][0])
         link = tree.xpath(source[0][1])
-        if len(source[1]) == 4:
+        if len(source[0]) == 4:
             '''adds main article and link in cases where xpath vals
                 different between the main article  and other articles'''
             title[0] = tree.xpath(source[0][2])[0]
             link[0] = tree.xpath(source[0][3])[0]
+        elif len(source[0]) == 6:
+            title.insert(0, tree.xpath(source[0][2])[0])
+            link.insert(0, tree.xpath(source[0][3])[0])
+
+            title.extend(tree.xpath(source[0][4]))
+            link.extend(tree.xpath(source[0][5]))
+        else:
+            url_link = link
         if src == 0:
             url_link = url_edit_dn(source[1], link)
         else:
             url_link = link
         #TP:
-        print(title)
+        # print(title)
         # print(url_link)
         return title, url_link
+    
     except ValueError:
         print("Some data NOT fetched from website.\ncheck if xpath values are valid.")
 
