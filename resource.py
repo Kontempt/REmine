@@ -4,8 +4,8 @@
 GENERAL = [r'real estate', r'housing', r'land', r'mortgage', r'project', r'funding', r'buildings', r'mall']
 FIRMS = [r'Cytonn', r'Hassconsult', r'Knight Frank', r'Centum']
 KEYWORD = [GENERAL, FIRMS]
-#Various 'categories' (eg. GENERAL, FIRM)added to search parameters separately for future
-    #...ease when dealing with large sets of KEYWORDs
+# Various 'categories' (eg. GENERAL, FIRM)added to search parameters separately for future
+# ...ease when dealing with large sets of KEYWORDs
 
 #DETAILS LIST holds the following:
     # main url [0]
@@ -13,6 +13,7 @@ KEYWORD = [GENERAL, FIRMS]
     # list of link start substrings[2]
     # author xpath[3]
     # body xpath[4]
+    # article source[5]
 DN_DETAILS = [
     'http://www.nation.co.ke/business/996-996-x0uutpz/index.html',
     [
@@ -22,7 +23,24 @@ DN_DETAILS = [
         r'http://www.nation.co.ke',
         r'http://www.businessdailyafrica.com'],
     "//section['class=author']/strong/text()",
-    '//section["class=body-copy"]/div/p/text()'
+    '//section["class=body-copy"]/div/p/text()',
+    'Daily Nation'
+]
+
+SD_DETAILS = [
+    'https://www.standardmedia.co.ke/business/category/46/home-away',
+    [
+        '//li/div["class=col-xs-6"]/h4/a/text()',
+        '//li/div["class=col-xs-6"]/h4/a/@href',
+        '//div["class=cat-faded-txtr"]/h3/text()',
+        '/html/body/div[5]/div[2]/a/@href',
+        '/html/body/div[5]/div[4]/div[1]/div["class=col-xs-4"]/h4/a/text()',
+        '/html/body/div[5]/div[4]/div[1]/div["class=col-xs-4"]/h4/a/@href'
+    ],
+    [],
+    '//div["class=col-xs-8"]/span["class=date"]/a/text()',
+    '//div["class=main-article"]/p/text()',
+    'The Standard'
 ]
 
 #SOURCE holds details(eg. xpath val.s, main url...) for all the news/info sources
