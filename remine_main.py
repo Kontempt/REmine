@@ -12,7 +12,10 @@ def indv_content_get(article_info, new_details):
         tree = html.fromstring(page.content)
 
         article_author = tree.xpath(article_info[0])
-        article_body = tree.xpath(article_info[1])
+
+        article_body = tree.xpath(article_info[1][0])
+        if len(article_info[1]) == 2:
+            article_body.extend(tree.xpath(article_info[1][1]))
 
         article_details = []
         article_details.append([article_author[0], article_body])
@@ -25,22 +28,22 @@ def indv_content_get(article_info, new_details):
 def content_get(src):
     '''Main function that starts up the remine project'''
 
-    source = resource.SOURCE[src]
+    source = resource.SOURCE[src] #represents the source dictionary e.g. DN_DETAILS, SD_DETAILS...
     try:
         page = requests.get(source[0])
         tree = html.fromstring(page.content)
 
-        title, urllink = retools.tree_parse(src, tree, source[1:3])
+        title, urllink = retools.tree_parse(src, tree, source[1:4])
 
         new_details = retools.filter_title(title, urllink)
-        print("TP:\nSOURCE:\n\t", source[5])
-        # holds list of relevant articles
-        print("NEW DETAILS:\n\t ", new_details)
-        
+        #TEST POINT: verification of filtered titles
+        #    holds list of relevant articles
+        print("TP:\nSOURCE:\t", source[6])
         if new_details:
-            article_details_all = indv_content_get(source[3:5], new_details)
+            print("NEW DETAILS:\n\t ", new_details)
+            # article_details_all = indv_content_get(source[4:6], new_details)
         else:
-            print("NO relevant articles found")
+            print("NEW DETAILS:\n\t NO relevant articles found.")
 
     except requests.exceptions.HTTPError:
         print("Page not accessed")
@@ -50,4 +53,3 @@ def content_get(src):
 
 for key in resource.SOURCE:
     content_get(key)
-
